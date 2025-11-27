@@ -36,7 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
       
-      // Se for sucesso, redireciona para a tela principal (AuthWrapper)
+ 
       if (result.contains('sucesso')) {
         Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
       }
