@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_exemplo/services/auth_service.dart';
 
-// 4. Listagem de Dados (Modelo de Estrutura de Item)
+
 class Item {
   final String key;
   final String nome;
@@ -21,17 +21,16 @@ class HomeScreen extends StatelessWidget {
 
   final AuthService _authService = const AuthService();
 
-  // Função para fazer logout
+
   void _logout(BuildContext context) async {
     await _authService.signOut();
-    // O AuthWrapper no main.dart irá detectar a mudança e redirecionar para a tela de Login.
+
     Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
   }
 
-  // Função para navegar e aguardar o resultado do cadastro de item
+
   void _navigateToAddItem(BuildContext context) async {
     await Navigator.of(context).pushNamed('/add_item');
-    // TODO: Se necessário, atualizar a lista de itens aqui (será implementado na próxima etapa)
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Retornou do Cadastro. Próxima etapa: Listagem!')),
     );
@@ -44,7 +43,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Página Principal'),
-        automaticallyImplyLeading: false, // Remove a seta de voltar
+        automaticallyImplyLeading: false, 
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -52,7 +51,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // Texto exibindo o e-mail do usuário logado
+
             Text(
               'Bem-vindo(a)!',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -72,7 +71,6 @@ class HomeScreen extends StatelessWidget {
             
             const SizedBox(height: 40),
             
-            // Botão para acessar a tela de cadastro de itens
             ElevatedButton.icon(
               onPressed: () => _navigateToAddItem(context),
               icon: const Icon(Icons.add),
@@ -84,7 +82,6 @@ class HomeScreen extends StatelessWidget {
             
             const SizedBox(height: 20),
 
-            // Botão Logout
             OutlinedButton.icon(
               onPressed: () => _logout(context),
               icon: const Icon(Icons.logout),
