@@ -1,0 +1,47 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+
+class DatabaseService {
+
+  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref();
+  
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<String?> addItem(String nome, String descricao) async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      return 'Erro: Nenhum usuário logado.';
+    }
+
+
+    final itemData = {
+      "nome": nome,
+      "descricao": descricao,
+      "data": ServerValue.timestamp, 
+    };
+
+    try {
+      final itemRef = _dbRef.child('usuarios').child(user.uid).child('itens');
+
+
+      await itemRef.push().set(itemData);
+      
+
+      return 'Sucesso: Item "$nome" salvo com sucesso!';
+    } catch (e) {
+      print('Erro ao salvar item: $e');
+      return 'Erro ao salvar item: ${e.toString()}';
+    }
+  }
+
+  DatabaseReference getItemsReference() {
+    final user = _auth.currentUser;
+    if (user == null) {
+      throw Exception('Usuário não logado.');
+    }
+
+    return _dbRef.child('usuarios').child(user.uid).child('itens');
+  }
+}
